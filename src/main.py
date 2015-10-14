@@ -42,7 +42,7 @@ def generate_query(team):
                 team['wins'] += 1
                 team['game_win_opponents'].append(game.home_team)
             else:
-                team['losses']
+                team['losses'] += 1
 
 def calc_team_record_ranking(team):
     for opp in team['opponents']:
@@ -53,6 +53,8 @@ def calc_team_record_ranking(team):
         team['game_win_opponents_games'] += teams[opp]['games']
         team['game_win_opponents_wins'] += teams[opp]['wins']
 
+    print ()
+
     team['points_scored_avg'] = team['points_scored'] / team['games']
     team['points_against_avg'] = team['points_against'] / team['games']
     team['point_differential_avg'] = team['point_differential'] / team['games']
@@ -61,6 +63,8 @@ def calc_team_record_ranking(team):
         team['sos'] = team['opponent_wins'] / team['opponent_games']
     else:
         team['sos'] = 0
+
+    # print '%s %d %d %.2f' % (team['id'], team['opponent_wins'], team['opponent_games'], team['sos'])
 
     if team['game_win_opponents_wins']:
         team['sov'] = team['game_win_opponents_wins'] / team['game_win_opponents_games']
@@ -98,7 +102,7 @@ def print_power_rankings(teams):
 
     for id, team in sorted(teams.iteritems(), key=lambda (x, y): y['power_ranking'], reverse=True):
         # print '%d. %s, %.1f' % (index, team['id'], team['power_ranking'])
-        print '%d. %s, %d-%d, %.2f, sos: %.2f, sov: %.2f, wv: %.2f, pdv: %.2f, psv: %.2f, pav: %.2f, tdv: %.2f' % (index, team['id'], team['wins'], team['losses'], team['power_ranking'], team['sos'], team['sov'], team['win_value'], team['point_differential_value'], team['points_scored_value'], team['points_against_value'],  team['turnover_differential_value'])
+        print '%d. %s %d-%d %.2f %.2f %.2f %.2f %.2f %.2f %.2f %.2f' % (index, team['id'], team['wins'], team['losses'], team['power_ranking'], team['sos'], team['sov'], team['win_value'], team['point_differential_value'], team['points_scored_value'], team['points_against_value'],  team['turnover_differential_value'])
         index += 1
 
 init()
