@@ -13,7 +13,7 @@ def generate_query(team):
     'Generate a base query to the NFLDB'
 
     team_query = nfldb.Query(db)
-    team_query.game(season_year=2015, season_type='Regular', team=team['id'], week=[1, 2, 3, 4, 5])
+    team_query.game(season_year=2015, season_type='Regular', team=team['id'], week=[1, 2, 3, 4, 5, 6])
 
     for game in team_query.as_games():
         team['games'] += 1
@@ -53,8 +53,6 @@ def calc_team_record_ranking(team):
         team['game_win_opponents_games'] += teams[opp]['games']
         team['game_win_opponents_wins'] += teams[opp]['wins']
 
-    print ()
-
     team['points_scored_avg'] = team['points_scored'] / team['games']
     team['points_against_avg'] = team['points_against'] / team['games']
     team['point_differential_avg'] = team['point_differential'] / team['games']
@@ -64,8 +62,6 @@ def calc_team_record_ranking(team):
     else:
         team['sos'] = 0
 
-    # print '%s %d %d %.2f' % (team['id'], team['opponent_wins'], team['opponent_games'], team['sos'])
-
     if team['game_win_opponents_wins']:
         team['sov'] = team['game_win_opponents_wins'] / team['game_win_opponents_games']
     else:
@@ -73,27 +69,27 @@ def calc_team_record_ranking(team):
 
     team['win_percentage'] = team['wins'] / team['games']
 
-def calc_points_ranking(teams, pointsKey, rankingKey):
+def calc_value_ranking(teams, valueKey, rankingKey, reverse):
     prevAvg = None
     index = 32
     indexSeries = 0
 
-    for id, team in sorted(teams.iteritems(), key=lambda (x, y): y[pointsKey], reverse=True):
-        if prevAvg == team[pointsKey]:
+    for id, team in sorted(teams.iteritems(), key=lambda (x, y): y[valueKey], reverse=reverse):
+        if prevAvg == team[valueKey]:
             indexSeries += 1
         elif indexSeries > 0:
             indexSeries = 0
 
-        prevAvg = team[pointsKey]
+        prevAvg = team[valueKey]
         team[rankingKey] = index + indexSeries
         index -= 1
 
 def calc_power_ranking(team):
     team['win_value'] = ((team['wins'] * 2.5) * team['sov']) * 0.50
-    team['point_differential_value'] = (team['point_differential_avg'] * team['sos']) * 0.25
+    team['point_differential_value'] = (team['point_differential_avg'] * team['sos']) * 0.20
     team['points_scored_value'] = (team['points_scored_ranking'] * 0.3125) * 0.10
     team['points_against_value'] = (team['points_against_ranking'] * 0.3125) * 0.10
-    team['turnover_differential_value'] = team['turnover_differential'] * 0.05
+    team['turnover_differential_value'] = (team['turnover_differential_ranking'] * 0.3125) * 0.10
 
     team['power_ranking'] = team['win_value'] + team['point_differential_value'] + team['points_scored_value'] + team['points_against_value'] + team['turnover_differential_value']
 
@@ -101,7 +97,6 @@ def print_power_rankings(teams):
     index = 1
 
     for id, team in sorted(teams.iteritems(), key=lambda (x, y): y['power_ranking'], reverse=True):
-        # print '%d. %s, %.1f' % (index, team['id'], team['power_ranking'])
         print '%d. %s %d-%d %.2f %.2f %.2f %.2f %.2f %.2f %.2f %.2f' % (index, team['id'], team['wins'], team['losses'], team['power_ranking'], team['sos'], team['sov'], team['win_value'], team['point_differential_value'], team['points_scored_value'], team['points_against_value'],  team['turnover_differential_value'])
         index += 1
 
@@ -130,8 +125,9 @@ for id, team in teams.iteritems():
 for id, team in teams.iteritems():
     calc_team_record_ranking(team)
 
-calc_points_ranking(teams, 'points_scored_avg', 'points_scored_ranking')
-calc_points_ranking(teams, 'points_against_avg', 'points_against_ranking')
+calc_value_ranking(teams, 'points_scored_avg', 'points_scored_ranking', True)
+calc_value_ranking(teams, 'points_against_avg', 'points_against_ranking', False)
+calc_value_ranking(teams, 'turnover_differential', 'turnover_differential_ranking', True)
 
 for id, team in teams.iteritems():
     calc_power_ranking(team)
