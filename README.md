@@ -4,7 +4,7 @@ Data model to calculate weekly NFL power rankings
 
 Breakdown of the latest data model iteration:
 
-* win_value (50% of ranking) — team wins scaled to a baseline of 10 and multiplied by strength of victory. *i.e. 4 team wins scales to 10, 3 to 7.5, 2 to 5, 1 to 2.5, and 0 is, well, still 0.
+* win_value (50% of ranking) — team wins multiplied by strength of victory.
 
 * point_differential_value (20% of ranking) — points per game plus/minus differential multiplied by strength of schedule.
 

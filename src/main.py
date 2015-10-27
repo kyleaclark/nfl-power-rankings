@@ -13,7 +13,7 @@ def generate_query(team):
     'Generate a base query to the NFLDB'
 
     team_query = nfldb.Query(db)
-    team_query.game(season_year=2015, season_type='Regular', team=team['id'], week=[1, 2, 3, 4, 5, 6])
+    team_query.game(season_year=2015, season_type='Regular', team=team['id'], week=weeks)
 
     for game in team_query.as_games():
         team['games'] += 1
@@ -85,7 +85,7 @@ def calc_value_ranking(teams, valueKey, rankingKey, reverse):
         index -= 1
 
 def calc_power_ranking(team):
-    team['win_value'] = ((team['wins'] * 2.5) * team['sov']) * 0.50
+    team['win_value'] = (team['wins'] * team['sov']) * 0.50
     team['point_differential_value'] = (team['point_differential_avg'] * team['sos']) * 0.20
     team['points_scored_value'] = (team['points_scored_ranking'] * 0.3125) * 0.10
     team['points_against_value'] = (team['points_against_ranking'] * 0.3125) * 0.10
@@ -103,8 +103,10 @@ def print_power_rankings(teams):
 init()
 
 global teams
+global weeks
 
 teams = team_data.get_data()
+weeks = [1, 2, 3, 4, 5, 6, 7]
 
 for id, team in teams.iteritems():
     team['games'] = 0
