@@ -1,6 +1,7 @@
 from __future__ import division
 import nfldb
 import team_data
+import json
 
 def init():
     'Initialize nfldb connection'
@@ -100,6 +101,15 @@ def print_power_rankings(teams):
         print '%d. %s %d-%d %.2f %.2f %.2f %.2f %.2f %.2f %.2f %.2f' % (index, team['id'], team['wins'], team['losses'], team['power_ranking'], team['sos'], team['sov'], team['win_value'], team['point_differential_value'], team['points_scored_value'], team['points_against_value'],  team['turnover_differential_value'])
         index += 1
 
+def export_to_json(teams):
+    data = []
+
+    for id, team in sorted(teams.iteritems(), key=lambda (x, y): y['power_ranking'], reverse=True):
+        data.append(team)
+
+    with open('rankings.txt', 'w') as outfile:
+        json.dump(data, outfile)
+
 init()
 
 global teams
@@ -135,3 +145,4 @@ for id, team in teams.iteritems():
     calc_power_ranking(team)
 
 print_power_rankings(teams)
+export_to_json(teams)
