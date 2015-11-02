@@ -114,7 +114,7 @@ def print_power_rankings(teams):
     index = 1
 
     for id, team in sorted(teams.iteritems(), key=lambda (x, y): y['power_ranking'], reverse=True):
-        print '%d. %s %d-%d %.2f %.2f %.2f %.2f %.2f %.2f %.2f %.2f' % (index, team['id'], team['wins'], team['losses'], team['power_ranking'], team['sos'], team['sov'], team['win_value'], team['point_differential_value'], team['points_scored_value'], team['points_against_value'],  team['turnover_differential_value'])
+        print '%d. %s %d-%d %.2f %.2f %.2f %.2f %.2f %.2f %.2f %.2f' % (index, team['id'], team['wins'], team['losses'], team['power_ranking'], team['sos'], team['sov'], team['win_value'], team['point_differential_value'], team['points_scored_value'], team['points_against_value'], team['turnover_differential_value'])
         index += 1
 
 def export_to_json(teams):
@@ -132,7 +132,7 @@ global teams
 global weeks
 
 teams = team_data.get_data()
-weeks = [1, 2, 3, 4, 5, 6, 7]
+weeks = [1, 2, 3, 4, 5, 6, 7, 8]
 
 for id, team in teams.iteritems():
     team['games'] = 0
