@@ -118,13 +118,19 @@ def print_power_rankings(teams):
         index += 1
 
 def export_to_json(teams):
+    data = {}
     rankings = []
+    name = '2015_wk_' + str(len(weeks))
+    fileName = name + '.json'
 
     for id, team in sorted(teams.iteritems(), key=lambda (x, y): y['power_ranking'], reverse=True):
         rankings.append(team)
 
-    with open('rankings.json', 'w') as outfile:
-        json.dump({'nfl_power_rankings_week_7': rankings}, outfile)
+    data['_id'] = name
+    data['data'] = rankings
+
+    with open(fileName, 'w') as outfile:
+        json.dump(data, outfile)
 
 init()
 
