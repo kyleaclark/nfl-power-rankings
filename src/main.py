@@ -2,6 +2,7 @@ from __future__ import division
 import nfldb
 import team_data
 import json
+import sys
 
 def init():
     'Initialize nfldb connection'
@@ -14,7 +15,7 @@ def generate_query(team):
     'Generate a base query to the NFLDB'
 
     team_query = nfldb.Query(db)
-    team_query.game(season_year=2015, season_type='Regular', team=team['id'], week=weeks)
+    team_query.game(season_year=input_year, season_type='Regular', team=team['id'], week=weeks)
 
     for game in team_query.as_games():
         team['games'] += 1
@@ -120,7 +121,7 @@ def print_power_rankings(teams):
 def export_to_json(teams):
     data = {}
     rankings = []
-    name = '2015_wk_' + str(len(weeks))
+    name = str(input_year) + '_wk_' + str(input_week)
     fileName = name + '.json'
 
     for id, team in sorted(teams.iteritems(), key=lambda (x, y): y['power_ranking'], reverse=True):
@@ -136,9 +137,14 @@ init()
 
 global teams
 global weeks
+global input_year
+global input_week
+
+input_year = int(sys.argv[1])
+input_week = int(sys.argv[2])
+weeks = range(1, (input_week + 1))
 
 teams = team_data.get_data()
-weeks = [1, 2, 3, 4, 5, 6, 7, 8, 9]
 
 for id, team in teams.iteritems():
     team['games'] = 0
