@@ -13,3 +13,7 @@ Breakdown of the latest data model iteration:
 * points_against_value (10% of ranking) — points scored against transformed to a scale of 0-10. *i.e. league best 10 points equals 10 on the transformation scale and 0 points equals 0.
 
 * turnover_differential_value (5% of ranking) — a team’s plus/minus turnover differential transformed to a scale of -10-10. *i.e. league best +7 turnovers equals 10 on the transformation scale and -7 turnovers equals -7.
+
+#### Run Locally
+
+e.g. ```python src/main.py 2015 17```
