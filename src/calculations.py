@@ -1,5 +1,15 @@
 from __future__ import division
 
+def init_calc_team_record_ranking(tms):
+    global teams
+
+    teams = tms
+
+    for id, team in teams.iteritems():
+        calc_team_record_ranking(team)
+
+    return teams
+
 def calc_team_record_ranking(team):
     for opp in team['opponents']:
         team['opponent_games'] += teams[opp]['games']
@@ -25,12 +35,19 @@ def calc_team_record_ranking(team):
 
     team['win_percentage'] = team['wins'] / team['games']
 
-def init_calc_team_record_ranking(tms):
-    global teams
+def calc_value_ranking(teams, valueKey, rankingKey, reverse):
+    prevAvg = None
+    index = 32
+    indexSeries = 0
 
-    teams = tms
+    for id, team in sorted(teams.iteritems(), key=lambda (x, y): y[valueKey], reverse=reverse):
+        if prevAvg == team[valueKey]:
+            indexSeries += 1
+        elif indexSeries > 0:
+            indexSeries = 0
 
-    for id, team in teams.iteritems():
-        calc_team_record_ranking(team)
+        prevAvg = team[valueKey]
+        team[rankingKey] = index + indexSeries
+        index -= 1
 
     return teams

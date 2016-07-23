@@ -4,21 +4,6 @@ import sys
 import init
 import calculations
 
-def calc_value_ranking(teams, valueKey, rankingKey, reverse):
-    prevAvg = None
-    index = 32
-    indexSeries = 0
-
-    for id, team in sorted(teams.iteritems(), key=lambda (x, y): y[valueKey], reverse=reverse):
-        if prevAvg == team[valueKey]:
-            indexSeries += 1
-        elif indexSeries > 0:
-            indexSeries = 0
-
-        prevAvg = team[valueKey]
-        team[rankingKey] = index + indexSeries
-        index -= 1
-
 def calc_value_transformation(teams, valueKey, transformationKey, reverse):
     index = 0
     transformationValue = 10
@@ -76,9 +61,9 @@ input_week = int(sys.argv[2])
 teams = init.init_teams(input_year, input_week);
 teams = calculations.init_calc_team_record_ranking(teams)
 
-calc_value_ranking(teams, 'points_scored_avg', 'points_scored_ranking', True)
-calc_value_ranking(teams, 'points_against_avg', 'points_against_ranking', False)
-calc_value_ranking(teams, 'turnover_differential', 'turnover_differential_ranking', True)
+teams = calculations.calc_value_ranking(teams, 'points_scored_avg', 'points_scored_ranking', True)
+teams = calculations.calc_value_ranking(teams, 'points_against_avg', 'points_against_ranking', False)
+teams = calculations.calc_value_ranking(teams, 'turnover_differential', 'turnover_differential_ranking', True)
 calc_value_transformation(teams, 'points_scored_avg', 'points_scored_transformation', True)
 calc_value_transformation(teams, 'points_against_avg', 'points_against_transformation', False)
 calc_value_transformation(teams, 'turnover_differential', 'turnover_differential_transformation', True)
