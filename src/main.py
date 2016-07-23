@@ -2,31 +2,7 @@ from __future__ import division
 import json
 import sys
 import init
-
-def calc_team_record_ranking(team):
-    for opp in team['opponents']:
-        team['opponent_games'] += teams[opp]['games']
-        team['opponent_wins'] += teams[opp]['wins']
-
-    for opp in team['game_win_opponents']:
-        team['game_win_opponents_games'] += teams[opp]['games']
-        team['game_win_opponents_wins'] += teams[opp]['wins']
-
-    team['points_scored_avg'] = team['points_scored'] / team['games']
-    team['points_against_avg'] = team['points_against'] / team['games']
-    team['point_differential_avg'] = team['point_differential'] / team['games']
-
-    if team['opponent_wins'] > 0:
-        team['sos'] = team['opponent_wins'] / team['opponent_games']
-    else:
-        team['sos'] = 0
-
-    if team['game_win_opponents_wins']:
-        team['sov'] = team['game_win_opponents_wins'] / team['game_win_opponents_games']
-    else:
-        team['sov'] = 0
-
-    team['win_percentage'] = team['wins'] / team['games']
+import calculations
 
 def calc_value_ranking(teams, valueKey, rankingKey, reverse):
     prevAvg = None
@@ -98,9 +74,7 @@ input_year = int(sys.argv[1])
 input_week = int(sys.argv[2])
 
 teams = init.init_teams(input_year, input_week);
-
-for id, team in teams.iteritems():
-    calc_team_record_ranking(team)
+teams = calculations.init_calc_team_record_ranking(teams)
 
 calc_value_ranking(teams, 'points_scored_avg', 'points_scored_ranking', True)
 calc_value_ranking(teams, 'points_against_avg', 'points_against_ranking', False)

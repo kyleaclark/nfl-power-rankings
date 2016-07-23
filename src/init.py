@@ -48,7 +48,6 @@ def generate_query(team):
             else:
                 team['losses'] += 1
 
-
 def init_teams(year, week):
     init()
 
