@@ -51,3 +51,21 @@ def calc_value_ranking(teams, valueKey, rankingKey, reverse):
         index -= 1
 
     return teams
+
+def calc_value_transformation(teams, valueKey, transformationKey, reverse):
+    index = 0
+    transformationValue = 10
+
+    for id, team in sorted(teams.iteritems(), key=lambda (x, y): y[valueKey], reverse=reverse):
+        if index == 0:
+            baselineAvg = team[valueKey]
+            team[transformationKey] = transformationValue
+        else:
+            if reverse == True:
+                team[transformationKey] = (team[valueKey] / baselineAvg) * transformationValue
+            else:
+                team[transformationKey] = (baselineAvg / team[valueKey]) * transformationValue
+
+        index += 1
+
+    return teams
