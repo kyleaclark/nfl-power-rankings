@@ -69,3 +69,22 @@ def calc_value_transformation(teams, valueKey, transformationKey, reverse):
         index += 1
 
     return teams
+
+def calc_power_ranking(team):
+    team['win_value'] = (team['wins'] * team['sov']) * 0.50
+    team['point_differential_value'] = (team['point_differential_avg'] * team['sos']) * 0.25
+    team['points_scored_value'] = team['points_scored_transformation'] * 0.10
+    team['points_against_value'] = team['points_against_transformation'] * 0.10
+    team['turnover_differential_value'] = team['turnover_differential_transformation'] * 0.05
+
+    team['power_ranking'] = team['win_value'] + team['point_differential_value'] + team['points_scored_value'] + team['points_against_value'] + team['turnover_differential_value']
+
+def init_calc_power_ranking(tms):
+    global teams
+
+    teams = tms
+
+    for id, team in teams.iteritems():
+        calc_power_ranking(team)
+
+    return teams

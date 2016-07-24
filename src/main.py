@@ -4,15 +4,6 @@ import sys
 import init
 import calculations
 
-def calc_power_ranking(team):
-    team['win_value'] = (team['wins'] * team['sov']) * 0.50
-    team['point_differential_value'] = (team['point_differential_avg'] * team['sos']) * 0.25
-    team['points_scored_value'] = team['points_scored_transformation'] * 0.10
-    team['points_against_value'] = team['points_against_transformation'] * 0.10
-    team['turnover_differential_value'] = team['turnover_differential_transformation'] * 0.05
-
-    team['power_ranking'] = team['win_value'] + team['point_differential_value'] + team['points_scored_value'] + team['points_against_value'] + team['turnover_differential_value']
-
 def print_power_rankings(teams):
     index = 1
 
@@ -52,8 +43,7 @@ teams = calculations.calc_value_transformation(teams, 'points_scored_avg', 'poin
 teams = calculations.calc_value_transformation(teams, 'points_against_avg', 'points_against_transformation', False)
 teams = calculations.calc_value_transformation(teams, 'turnover_differential', 'turnover_differential_transformation', True)
 
-for id, team in teams.iteritems():
-    calc_power_ranking(team)
+teams = calculations.init_calc_power_ranking(teams)
 
 print_power_rankings(teams)
 export_to_json(teams)
