@@ -1,18 +1,22 @@
 # nfl-power-rankings
 
-Data model to calculate weekly NFL power rankings
+Statistical formula to calculate weekly NFL power rankings
 
-Breakdown of the latest data model iteration:
+Breakdown of the latest ranking formula:
 
-* win_value (50% of ranking) — team wins multiplied by strength of victory.
+* victory value (25%) - teams wins * strength of victory (relative scale of 0 to 100 by the highest upper bound value)
 
-* point_differential_value (25% of ranking) — points per game plus/minus differential multiplied by strength of schedule.
+* pythagorean win value (25%) - points scored) / (points scored + points against) * games played (relative scale  of0 to 100 by the highest upper bound value)
 
-* points_scored_value (10% of ranking) — points scored transformed to a scale of 0-10. *i.e. league best 30 points equals 10 on the transformation scale and 0 points equals 0.
+* point differential value (25%) - (ppg differential plus/minus average * strength of schedule (relative scale of 0 to 100 by the highest upper bound value)
 
-* points_against_value (10% of ranking) — points scored against transformed to a scale of 0-10. *i.e. league best 10 points equals 10 on the transformation scale and 0 points equals 0.
+* win_percentage value (10%) - win percentage (relative scale of 0 to 100 by the highest upper bound value)
 
-* turnover_differential_value (5% of ranking) — a team’s plus/minus turnover differential transformed to a scale of -10-10. *i.e. league best +7 turnovers equals 10 on the transformation scale and -7 turnovers equals -7.
+* points scored value (5%) — points scored (relative scale of 0 to 100 by the highest upper bound value i.e. league best 28 points equals 100, 21 equals 75, and 14 points equals 50 on the scale)
+
+* points against value (5%) — points against (relative scale of 0 to 100 by the lowest lower bound value i.e. league best 14 points equals 100, 21 equals ~66, and 28 points equals 50 on the scale)
+
+* turnover differential value (5%) - turnover_differential plus/minus (relative scale of -100 to 100 by the lowest lower bound value)
 
 #### Run Locally
 
