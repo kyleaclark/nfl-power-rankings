@@ -54,7 +54,7 @@ def calc_value_ranking(teams, valueKey, rankingKey, reverse):
 
 def calc_value_transformation(teams, valueKey, transformationKey, reverse):
     index = 0
-    transformationValue = 10
+    transformationValue = 100
 
     for id, team in sorted(teams.iteritems(), key=lambda (x, y): y[valueKey], reverse=reverse):
         if index == 0:
@@ -70,14 +70,16 @@ def calc_value_transformation(teams, valueKey, transformationKey, reverse):
 
     return teams
 
-def calc_power_ranking(team):
-    team['win_value'] = (team['wins'] * team['sov']) * 0.50
-    team['point_differential_value'] = (team['point_differential_avg'] * team['sos']) * 0.25
-    team['points_scored_value'] = team['points_scored_transformation'] * 0.10
-    team['points_against_value'] = team['points_against_transformation'] * 0.10
-    team['turnover_differential_value'] = team['turnover_differential_transformation'] * 0.05
+def calc_advanced_stats(teams):
+    for id, team in teams.iteritems():
+        points_scored = team['points_scored_transformation']
+        points_scored_divisor = points_scored + team['points_against_transformation']
+        team['pythagorean_wins'] = (points_scored / points_scored_divisor) * team['games']
 
-    team['power_ranking'] = team['win_value'] + team['point_differential_value'] + team['points_scored_value'] + team['points_against_value'] + team['turnover_differential_value']
+        team['victory_value'] = (team['wins'] * team['sov'])
+        team['point_differential_strength'] = team['point_differential_avg'] * team['sos']
+
+    return teams
 
 def init_calc_power_ranking(tms):
     global teams
@@ -88,3 +90,15 @@ def init_calc_power_ranking(tms):
         calc_power_ranking(team)
 
     return teams
+
+def calc_power_ranking(team):
+    team['win_value'] = team['victory_value_transformation'] * 0.25
+    team['point_differential_value'] = team['point_differential_transformation'] * 0.25
+    team['pythagorean_win_value'] = team['pythagorean_wins_transformation'] * 0.25
+
+    team['win_percentage_value'] = team['win_percentage_transformation'] * 0.10
+    team['points_scored_value'] = team['points_scored_transformation'] * 0.05
+    team['points_against_value'] = team['points_against_transformation'] * 0.05
+    team['turnover_differential_value'] = team['turnover_differential_transformation'] * 0.05
+
+    team['power_ranking'] = team['win_value'] + team['point_differential_value'] + team['pythagorean_win_value'] + team['win_percentage_value'] + team['points_scored_value'] + team['points_against_value'] + team['turnover_differential_value']

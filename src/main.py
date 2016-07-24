@@ -21,6 +21,13 @@ teams = calculations.calc_value_transformation(teams, 'points_scored_avg', 'poin
 teams = calculations.calc_value_transformation(teams, 'points_against_avg', 'points_against_transformation', False)
 teams = calculations.calc_value_transformation(teams, 'turnover_differential', 'turnover_differential_transformation', True)
 
+teams = calculations.calc_advanced_stats(teams)
+
+teams = calculations.calc_value_transformation(teams, 'pythagorean_wins', 'pythagorean_wins_transformation', True)
+teams = calculations.calc_value_transformation(teams, 'victory_value', 'victory_value_transformation', True)
+teams = calculations.calc_value_transformation(teams, 'point_differential_strength', 'point_differential_transformation', True)
+teams = calculations.calc_value_transformation(teams, 'win_percentage', 'win_percentage_transformation', True)
+
 teams = calculations.init_calc_power_ranking(teams)
 
 output.print_power_rankings(teams)
