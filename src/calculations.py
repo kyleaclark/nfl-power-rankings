@@ -59,7 +59,7 @@ def calc_value_transformation(teams, valueKey, transformationKey, reverse):
     for id, team in sorted(teams.iteritems(), key=lambda (x, y): y[valueKey], reverse=reverse):
         if index == 0:
             baselineAvg = team[valueKey]
-            team[transformationKey] = transformationValue
+            team[transformationKey] = transformationValue if baselineAvg > 0 else 0
         else:
             if reverse == True:
                 team[transformationKey] = transformative_divide(team[valueKey], baselineAvg) * transformationValue
@@ -85,8 +85,8 @@ def transformative_divide(numerator, denominator):
 
 def calc_advanced_stats(teams):
     for id, team in teams.iteritems():
-        points_scored = team['points_scored_transformation']
-        points_scored_divisor = points_scored + team['points_against_transformation']
+        points_scored = team['points_scored']
+        points_scored_divisor = points_scored + team['points_against']
         team['pythagorean_wins'] = (points_scored / points_scored_divisor) * team['games']
 
         team['victory_value'] = (team['wins'] * team['sov'])
