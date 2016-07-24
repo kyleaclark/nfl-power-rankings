@@ -62,13 +62,26 @@ def calc_value_transformation(teams, valueKey, transformationKey, reverse):
             team[transformationKey] = transformationValue
         else:
             if reverse == True:
-                team[transformationKey] = (team[valueKey] / baselineAvg) * transformationValue
+                team[transformationKey] = transformative_divide(team[valueKey], baselineAvg) * transformationValue
             else:
-                team[transformationKey] = (baselineAvg / team[valueKey]) * transformationValue
+                team[transformationKey] = transformative_divide(baselineAvg, team[valueKey]) * transformationValue
 
         index += 1
 
     return teams
+
+def transformative_divide(numerator, denominator):
+    if denominator == 0:
+        return 0
+
+    val = numerator / denominator
+
+    if val > 1:
+        return 1
+    elif val < -1:
+        return -1
+    else:
+        return val
 
 def calc_advanced_stats(teams):
     for id, team in teams.iteritems():
