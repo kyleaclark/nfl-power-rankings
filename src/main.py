@@ -31,4 +31,4 @@ teams = calculations.calc_value_transformation(teams, 'win_percentage', 'win_per
 teams = calculations.init_calc_power_ranking(teams)
 
 output.print_power_rankings(teams)
-# output.export_to_json(teams, input_week, input_year)
+output.export_to_json(teams, input_week, input_year)

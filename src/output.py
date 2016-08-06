@@ -1,4 +1,5 @@
 import json
+from collections import OrderedDict
 
 def print_power_rankings(teams):
     index = 1
@@ -10,7 +11,6 @@ def print_power_rankings(teams):
         index += 1
 
 def export_to_json(teams, input_week, input_year):
-    data = {}
     rankings = []
     name = str(input_year) + '_wk_' + str(input_week)
     fileName = name + '.json'
@@ -18,8 +18,7 @@ def export_to_json(teams, input_week, input_year):
     for id, team in sorted(teams.iteritems(), key=lambda (x, y): y['power_ranking'], reverse=True):
         rankings.append(team)
 
-    data['_id'] = name
-    data['data'] = rankings
+    output = OrderedDict([ ('_id', name), ('year', input_year), ('week', input_week), ('data', rankings) ])
 
     with open(fileName, 'w') as outfile:
-        json.dump(data, outfile)
+        json.dump(output, outfile)
