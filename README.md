@@ -20,4 +20,6 @@ Breakdown of the latest ranking formula:
 
 #### Run Locally
 
-e.g. ```python src/main.py 2015 17```
+e.g. ```python src/main.py single 2015 17``` to calculate the single week of 2015 Week 17
+
+e.g. ```python src/main.py multiple 2009 1 2015 17``` to calculate the full set of weekly rankings
