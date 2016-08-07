@@ -18,6 +18,8 @@ Breakdown of the latest ranking formula:
 
 * turnover differential value (5%) - turnover_differential plus/minus (relative scale of -100 to 100 by the lowest lower bound value)
 
+Note: Power Ranking has an applied floor value of 0 for a 0-100 rating system.
+
 #### Run Locally
 
 e.g. ```python src/main.py single 2015 17``` to calculate the single week of 2015 Week 17

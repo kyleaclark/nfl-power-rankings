@@ -115,3 +115,6 @@ def calc_power_ranking(team):
     team['turnover_differential_value'] = team['turnover_differential_transformation'] * 0.05
 
     team['power_ranking'] = team['win_value'] + team['point_differential_value'] + team['pythagorean_win_value'] + team['win_percentage_value'] + team['points_scored_value'] + team['points_against_value'] + team['turnover_differential_value']
+
+    if team['power_ranking'] < 0:
+        team['power_ranking'] = 0
