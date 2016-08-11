@@ -12,7 +12,11 @@ def print_power_rankings(teams):
 
 def export_to_json(teams, input_week, input_year):
     rankings = []
-    name = str(input_year) + '_wk_' + str(input_week)
+
+    input_year_str = str(input_year)
+    input_week_str = str(input_week) if (input_week > 9) else ('0' + str(input_week))
+
+    name = input_year_str + '_wk_' + input_week_str
     fileName = name + '.json'
 
     for id, team in sorted(teams.iteritems(), key=lambda (x, y): y['power_ranking'], reverse=True):
