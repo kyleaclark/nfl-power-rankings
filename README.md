@@ -2,7 +2,7 @@
 
 Statistical formula to calculate weekly NFL power rankings
 
-Breakdown of the latest ranking formula:
+#### Breakdown of the power ranking formula:
 
 * victory value (25%) - teams wins * strength of victory (relative scale of 0 to 100 by the highest upper bound value)
 
