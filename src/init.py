@@ -57,7 +57,10 @@ def init_teams(year, week):
     input_year = year
     input_week = week
 
-    teams = team_data.get_data()
+    if input_year > 2015:
+        teams = team_data.get_post_2015_data()
+    else:
+        teams = team_data.get_pre_2016_data()
 
     for id, team in teams.iteritems():
         team['games'] = 0
