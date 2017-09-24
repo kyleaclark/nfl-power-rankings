@@ -57,8 +57,10 @@ def init_teams(year, week):
     input_year = year
     input_week = week
 
-    if input_year > 2015:
-        teams = team_data.get_post_2015_data()
+    if input_year > 2016:
+        teams = team_data.get_post_2016_data()
+    elif input_year == 2016:
+        teams = team_data.get_2016_data()
     else:
         teams = team_data.get_pre_2016_data()
 

@@ -19,21 +19,20 @@ def calc_team_record_ranking(team):
         team['game_win_opponents_games'] += teams[opp]['games']
         team['game_win_opponents_wins'] += teams[opp]['wins']
 
-    team['points_scored_avg'] = team['points_scored'] / team['games']
-    team['points_against_avg'] = team['points_against'] / team['games']
-    team['point_differential_avg'] = team['point_differential'] / team['games']
-
-    if team['opponent_wins'] > 0:
-        team['sos'] = team['opponent_wins'] / team['opponent_games']
+    if team['games'] > 0:
+        team['points_scored_avg'] = team['points_scored'] / team['games']
+        team['points_against_avg'] = team['points_against'] / team['games']
+        team['point_differential_avg'] = team['point_differential'] / team['games']
+        team['win_percentage'] = team['wins'] / team['games']
     else:
-        team['sos'] = 0
+        team['points_scored_avg'] = 0
+        team['points_against_avg'] = 0
+        team['point_differential_avg'] = 0
+        team['win_percentage'] = 0
 
-    if team['game_win_opponents_wins']:
-        team['sov'] = team['game_win_opponents_wins'] / team['game_win_opponents_games']
-    else:
-        team['sov'] = 0
+    team['sos'] = team['opponent_wins'] / team['opponent_games'] if team['opponent_wins'] > 0 else 0
+    team['sov'] = team['game_win_opponents_wins'] / team['game_win_opponents_games'] if team['game_win_opponents_wins'] else 0
 
-    team['win_percentage'] = team['wins'] / team['games']
 
 def calc_value_ranking(teams, valueKey, rankingKey, reverse):
     prevAvg = None
@@ -87,7 +86,7 @@ def calc_advanced_stats(teams):
     for id, team in teams.iteritems():
         points_scored = team['points_scored']
         points_scored_divisor = points_scored + team['points_against']
-        team['pythagorean_wins'] = (points_scored / points_scored_divisor) * team['games']
+        team['pythagorean_wins'] = (points_scored / points_scored_divisor) * team['games'] if points_scored_divisor > 0 else 0
 
         team['victory_value'] = (team['wins'] * team['sov'])
         team['point_differential_strength'] = team['point_differential_avg'] * team['sos']
