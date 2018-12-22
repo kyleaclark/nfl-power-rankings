@@ -1,7 +1,10 @@
 from __future__ import division
+
+import logging
 import sys
-import init
+
 import calculations
+import init
 import output
 
 def calc_rankings(input_year, input_week):
@@ -77,11 +80,12 @@ def entry(year=None, week=None, calc_type=None):
 
 
 if __name__ == '__main__':
-    year = 2018
-    week = 1
-    calc_type = 'single'
 
-    entry(year=year, week=week, calc_type=calc_type)
-    print('debug')
-else:
-    entry()
+    if len(sys.argv) > 1:
+        entry()
+    else:
+        calc_type = 'single'
+        year = 2018
+        week = 1
+        logging.debug('debug mode : %s %i %i' % (calc_type, year, week))
+        entry(year=year, week=week, calc_type=calc_type)
