@@ -1,0 +1,12 @@
+name: nfl_power_rankings
+channels: !!python/tuple
+- defaults
+- conda-forge
+dependencies:
+- pip=9.0.1
+- python=2.7.13=0
+- psycopg2=2.7.5
+- numpy=1.14.5
+- pip:
+  - nfldb==0.2.17
+  - pandas==0.23.3

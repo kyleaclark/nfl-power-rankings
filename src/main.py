@@ -27,12 +27,7 @@ def calc_rankings(input_year, input_week):
     output.print_power_rankings(teams)
     output.export_to_json(teams, input_week, input_year)
 
-def calc_multiple_weeks():
-    beg_year = int(sys.argv[2])
-    beg_week = int(sys.argv[3])
-    end_year = int(sys.argv[4])
-    end_week = int(sys.argv[5])
-
+def calc_multiple_weeks(beg_year, beg_week, end_year, end_week):
     first_archived_year = 2009
     weeks_in_a_season = 17
 
@@ -63,17 +58,30 @@ def calc_multiple_weeks():
 
             calc_rankings(year, week)
 
-def calc_single_week():
-    input_year = int(sys.argv[2])
-    input_week = int(sys.argv[3])
-    calc_rankings(input_year, input_week)
 
-def entry():
-    calc_type = sys.argv[1]
+def entry(year=None, week=None, calc_type=None):
+    calc_type = calc_type or sys.argv[1]
 
     if calc_type == 'multiple':
-        calc_multiple_weeks()
-    elif calc_type == 'single':
-        calc_single_week()
+        beg_year = year[0] if year else int(sys.argv[2])
+        beg_week = week[0] if week else int(sys.argv[3])
+        end_year = year[-1] if year else int(sys.argv[4])
+        end_week = week[-1] if week else int(sys.argv[5])
 
-entry()
+        calc_multiple_weeks(beg_year, beg_week, end_year, end_week)
+    elif calc_type == 'single':
+        input_year = year or int(sys.argv[2])
+        input_week = week or int(sys.argv[3])
+
+        calc_rankings(input_year, input_week)
+
+
+if __name__ == '__main__':
+    year = 2018
+    week = 1
+    calc_type = 'single'
+
+    entry(year=year, week=week, calc_type=calc_type)
+    print('debug')
+else:
+    entry()
